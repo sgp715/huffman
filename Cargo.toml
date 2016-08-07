@@ -1,0 +1,10 @@
+[package]
+name = "huffman"
+version = "0.1.0"
+authors = ["sebastian_perez"]
+
+
+[dependencies]
+petgraph = "0.2.6"
+rustc-serialize = "*"
+bincode = "0.5.0"
