@@ -1,8 +1,6 @@
-pub mod test;
+pub mod unit_tests;
 
 // holds useful functions for building compression algorithm
-extern crate rustc_serialize;
-extern crate bincode;
 pub mod utils;
 
 // module to serialize data directly into a file
