@@ -71,7 +71,26 @@ pub fn fuse_nodes(graph: &mut Graph<String, String>, dict: &mut HashMap<NodeInde
 }
 
 
-pub fn compress() {
-    //! compress a file and write it to specified file name 
+pub fn create_tree(s: &str) -> Graph<String, String> {
+    //! given a string create the huffman tree that will be used to encode and decode stirngs
+    
+    let mut graph = Graph::<String, String>::default();
+    let mut dict = initialize_node_dictionary(&mut graph, s);
+    
+    
+    // loop until there is only one element left in the dictionary
+    // this corresponds to the root node of the tree
+    while dict.len() > 1 {
+    
+        fuse_nodes(&mut graph, &mut dict);
+    }
+    
+    graph
+
+}
+
+pub fn print_graph(g: Graph<String, String>) {
+
+
 
 }

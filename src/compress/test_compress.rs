@@ -3,9 +3,9 @@ use node::node::*;
 use compress::compress::*;
 use std::collections::HashMap;
 
+/*
 #[test]
 pub fn test_fuse_nodes(){
-
     //! only works some times because order on dict is switched
 
     let mut graph = Graph::<String, String>::default();
@@ -34,4 +34,16 @@ pub fn test_fuse_nodes(){
     
     assert_eq!(equal, true);
    
+}
+*/
+
+#[test]
+pub fn test_create_tree(){
+
+    let g0 = create_tree("Hello");
+    
+    let g1 = create_tree("Hello, World!");
+    
+    assert_eq!(0, 1);
+
 }
