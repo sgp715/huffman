@@ -1,5 +1,3 @@
-pub mod unit_tests;
-
 // holds useful functions for building compression algorithm
 pub mod utils;
 
