@@ -76,7 +76,7 @@ pub fn test_minimum(){
 	
 }
 
-
+/*
 #[test]
 pub fn test_fuse(){
 
@@ -104,4 +104,4 @@ pub fn test_fuse(){
 	expected.insert("o".to_string(), 0.4);
 	assert_eq!(actual, expected);
 
-}
+}*/

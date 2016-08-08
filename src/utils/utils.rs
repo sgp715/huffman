@@ -96,6 +96,8 @@ pub fn minimum(dict: &HashMap<String, f32>) -> String {
     minimum_letter
 }
 
+
+/*
 pub fn fuse(dict: &HashMap<String, f32>) -> HashMap<String, f32> {
     //! takes in a hash map and adds the probability of the minimum two
     //! and returns a new hash map with the combined values
@@ -128,7 +130,7 @@ pub fn fuse(dict: &HashMap<String, f32>) -> HashMap<String, f32> {
     
     new_dict
 
-}
+}*/
 
 
 

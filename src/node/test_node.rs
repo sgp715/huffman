@@ -18,6 +18,7 @@ pub fn test_create_graph(){
 
 }
 
+/*
 #[test]
 pub fn test_initialize_node_dictionary(){
 
@@ -35,9 +36,9 @@ pub fn test_initialize_node_dictionary(){
     node_dict.insert(o, 0.2);
     assert_eq!(actual, node_dict);
 
-}
+}*/
 
-/* #[test] 
+#[test] 
 pub fn test_min_node(){
 
     let mut graph = Graph::<String, String>::default();
@@ -53,7 +54,7 @@ pub fn test_min_node(){
     assert_eq!(actual, a);
     
     
-} */
+}
 
 #[test]
 pub fn test_add_nodes(){
