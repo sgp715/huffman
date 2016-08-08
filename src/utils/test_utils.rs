@@ -100,7 +100,7 @@ pub fn test_fuse(){
     
     actual = fuse(&actual);
     expected = HashMap::new();
-	expected.insert("hel".to_string(), 0.6); 
+	expected.insert("lhe".to_string(), 0.6); 
 	expected.insert("o".to_string(), 0.4);
 	assert_eq!(actual, expected);
 
