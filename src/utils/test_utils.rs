@@ -96,5 +96,12 @@ pub fn test_fuse(){
 	expected.insert("l".to_string(), 0.3);
 	expected.insert("o".to_string(), 0.4);
     assert_eq!(actual, expected);
+    
+    
+    actual = fuse(&actual);
+    expected = HashMap::new();
+	expected.insert("hel".to_string(), 0.6); 
+	expected.insert("o".to_string(), 0.4);
+	assert_eq!(actual, expected);
 
 }
