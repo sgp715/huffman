@@ -9,6 +9,11 @@ petgraph = "0.2.6"
 rustc-serialize = "*"
 bincode = "0.5.0"
 
+
+[lib]
+name="huffman"
+path="src/lib.rs"
+
 [[bin]]
-name="example"
-path="src/example.rs"
+name="rip"
+path="src/rip.rs"
