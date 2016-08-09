@@ -82,7 +82,7 @@ pub fn test_add_nodes(){
 
 }
 
-
+/*
 #[test]
 pub fn test_fuse_nodes(){
     //! only works some times because order on dict is switched
@@ -128,14 +128,35 @@ pub fn test_fuse_nodes(){
     assert_eq!(num_2, 0);
    
 }
+*/
 
 
 #[test]
 pub fn test_create_tree(){
 
-    let g0 = create_tree("Hello");
+    //! print out the tree
+
+    let tree_tuple = create_tree("Hello");
+
     
-    let g1 = create_tree("Hello, World!");
+    let graph = tree_tuple.0;
+    let root_node = tree_tuple.1;
+    let mut bfs = Bfs::new(&graph, root_node); 
+    
+    loop {
+    
+        let node_index: NodeIndex = match bfs.next(&graph) {
+            Some(n) => n,
+            None => break,
+        };
+        
+        let weight = graph.node_weight(node_index).expect("Could not get weight");
+        println!("weight: {}", weight);
+    
+    }
 
 }
+
+
+
 

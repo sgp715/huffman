@@ -1,5 +1,5 @@
 pub use utils::utils::*;
-pub use petgraph::Graph;
+pub use petgraph::{Graph, Bfs};
 pub use petgraph::graph::NodeIndex;
 use std::collections::HashMap;
 
@@ -82,12 +82,11 @@ pub fn fuse_nodes(graph: &mut Graph<String, String>, dict: &mut HashMap<NodeInde
 }
 
 
-pub fn create_tree(s: &str) -> Graph<String, String> {
+pub fn create_tree(s: &str) -> (Graph<String, String>, NodeIndex) {
     //! given a string create the huffman tree that will be used to encode and decode stirngs
     
     let mut graph = Graph::<String, String>::default();
     let mut dict = initialize_node_dictionary(&mut graph, s);
-    
     
     // loop until there is only one element left in the dictionary
     // this corresponds to the root node of the tree
@@ -96,9 +95,38 @@ pub fn create_tree(s: &str) -> Graph<String, String> {
         fuse_nodes(&mut graph, &mut dict);
     }
     
-    graph
+    // return the first value
+    let root_index = match dict.keys().next() {
+    
+        Some(n) => *n,
+        None => panic!("Not able to find root node"),
+    };
+    
+    // return the tuple with the graph and root node
+    (graph, root_index)
 
 }
+
+
+
+
+/*
+pub fn repr_graph(root: NodeIndex, g: Graph<String, String>) -> String {
+
+    let mut s: String = "".to_string();
+    
+    for node in g.raw_nodes() {
+        let weight = match g.node_weight(node) {
+            Option(w) => *w,
+            None => panic!("Blank node")
+        };  
+        s = s + weight;
+    }
+    
+    s
+
+}
+*/
 
 
 
