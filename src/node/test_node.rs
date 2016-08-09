@@ -131,6 +131,7 @@ pub fn test_fuse_nodes(){
 */
 
 
+/*
 #[test]
 pub fn test_create_tree(){
 
@@ -139,7 +140,7 @@ pub fn test_create_tree(){
     let tree_tuple = create_tree("Hello");
 
     
-    let graph = tree_tuple.0;
+    let mut graph = tree_tuple.0;
     let root_node = tree_tuple.1;
     let mut bfs = Bfs::new(&graph, root_node); 
     
@@ -154,6 +155,33 @@ pub fn test_create_tree(){
         println!("weight: {}", weight);
     
     }
+    
+    assert!(false);
+
+}
+*/
+
+#[test]
+pub fn test_find_node(){
+
+
+    let tree_tuple = create_tree("Hello");
+    
+    let node_index = find_node(&tree_tuple, "H");
+    
+    assert!(node_index.is_some());
+
+}
+
+#[test]
+pub fn test_encode(){
+
+    let tree_tuple = create_tree("Hello");
+    let s = encode(&tree_tuple, "e");
+    
+    println!("We did it {}", s);
+    
+    assert!(false);
 
 }
 

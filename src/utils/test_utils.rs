@@ -6,7 +6,7 @@ use std::collections::HashMap;
 #[test]
 pub fn test_read_file_to_string() {
 
-	let s = "my name is sebastian.\n";
+	let s = "Houston we have lift off.\n";
 	let t = read_file_to_string("test.txt");
 	assert_eq!(t, s);
 

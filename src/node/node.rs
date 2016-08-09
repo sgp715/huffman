@@ -1,5 +1,5 @@
 pub use utils::utils::*;
-pub use petgraph::{Graph, Bfs};
+pub use petgraph::{Graph, Bfs, EdgeDirection};
 pub use petgraph::graph::NodeIndex;
 use std::collections::HashMap;
 
@@ -108,6 +108,64 @@ pub fn create_tree(s: &str) -> (Graph<String, String>, NodeIndex) {
 }
 
 
+pub fn find_node(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -> Option<NodeIndex> {
+    //! find node index with specific wieght
+    
+    let graph = &tree_tuple.0;
+    let root_node = tree_tuple.1;
+    let mut bfs = Bfs::new(graph, root_node);
+    
+    let mut the_node = None;
+    loop {
+    
+        let node_index: NodeIndex = match bfs.next(graph) {
+            Some(n) => n,
+            None => break,
+        };
+        
+        let weight = graph.node_weight(node_index).expect("Could not get weight");
+        if weight == s {
+            the_node = Some(node_index);
+        }
+    }
+    
+    the_node
+}
+
+pub fn encode(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -> String {
+    //! takes in a letterand traverses the tree and outputs the binary string value
+    
+    let starting_index = match find_node(tree_tuple, s) {
+        Some(i) => i,
+        None => panic!("Could not find index"),
+    };
+
+    let graph = &tree_tuple.0;
+    
+    // iterate through all the way to the top
+    let mut binary_string: String = "".to_string();
+    let mut current_index = starting_index;
+    loop {
+        
+        // get the parent node (should only be 1)
+        let mut node_iter = graph.neighbors_directed(current_index, EdgeDirection::Incoming);
+        let mut parent_index = match node_iter.next() {
+            Some(pi) => pi,
+            None => break,
+        };
+        
+        // get the wieght of the edge between current node and parent
+        let mut edge_index = graph.find_edge(parent_index, current_index).expect("No edge index");
+        let mut edge_weight = graph.edge_weight(edge_index).expect("No edge weight");
+        binary_string = binary_string + &edge_weight;
+        
+        current_index = parent_index;
+        
+    }
+    
+    binary_string
+    
+}
 
 
 /*
