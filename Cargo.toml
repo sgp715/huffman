@@ -8,3 +8,7 @@ authors = ["sebastian_perez"]
 petgraph = "0.2.6"
 rustc-serialize = "*"
 bincode = "0.5.0"
+
+[[bin]]
+name="example"
+path="src/example.rs"
