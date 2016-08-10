@@ -96,6 +96,19 @@ pub fn minimum(dict: &HashMap<String, f32>) -> String {
     minimum_letter
 }
 
+pub fn reverse_string(s: &str) -> String {
+    //! reverse the string
+
+    let mut reversed = "".to_string();
+    
+    for c in s.chars().rev() {
+        reversed = reversed + &c.to_string();
+    }
+    
+    reversed
+
+}
+
 
 /*
 pub fn fuse(dict: &HashMap<String, f32>) -> HashMap<String, f32> {

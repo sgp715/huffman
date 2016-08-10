@@ -61,7 +61,7 @@ pub fn test_create_probability_dictionary() {
 }
 
 #[test]
-pub fn test_minimum(){
+pub fn test_minimum() {
 
     let mut dict: HashMap<String, f32> = HashMap::new();
     dict.insert("h".to_string(), 0.1);
@@ -74,6 +74,16 @@ pub fn test_minimum(){
 	
 	assert_eq!(actual, expected);
 	
+}
+
+#[test]
+pub fn test_reverse_string() {
+
+    let s = "Hello, world!";
+    let rs = reverse_string(s);
+    let el ="!dlrow ,olleH";
+    assert_eq!(el, rs);
+
 }
 
 /*
