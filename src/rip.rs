@@ -7,29 +7,22 @@ use huffman::node::*;
 use huffman::serialize::*;
 
 
-fn main() {
+fn compress(file_name: &str) {
 
 
-    let mut args = env::args();
-    if args.len() != 2 {
-        println!("Usage: example filename");
-        exit(2);
-    }
-    let file_name = args.nth(1).expect("no filename given");
+    // read the string from the file
+    let s = utils::read_file_to_string(&file_name);
+    
     
     // get filename w/o extension
     let mut filename_no_extension = "".to_string();
     for c in file_name.chars() {
         if c == '.' {
-            break
+            break;
         }
         
         filename_no_extension = filename_no_extension + &c.to_string();
     }
-
-    // read the string from the file
-    let s = utils::read_file_to_string(&file_name);
-    
     
     // create the graph tuple
     let tuple = node::create_tree(&s);
@@ -51,6 +44,54 @@ fn main() {
     
     // write binary string
     serialize::write_binary(&(filename_no_extension + ".rip"), &binary);
+
+}
+
+
+fn decompress(s: &str) {
+
+}
+
+
+fn main() {
+
+
+    let mut args = env::args();
+    if args.len() != 2 {
+        println!("Usage: example filename");
+        exit(2);
+    }
+    
+    
+    let file_name = args.nth(1).expect("no filename given");
+    
+    
+    // get the extentsion
+    let mut ext = "".to_string();
+    let mut before = true;
+    for c in file_name.chars() {
+        if c != '.' && before {
+            continue;
+        }
+        
+        if c == '.' {
+            before = false;
+        }
+        
+        ext = ext + &c.to_string();
+    }
+    
+    
+    // get option
+    //let option = args.nth(1).expect("no option");
+    
+    if ext.to_string() == ".rip" {
+        decompress(&file_name);
+    }
+    else if ext.to_string() == ".txt" {
+        compress(&file_name);
+    }
+    
     
 }
 
