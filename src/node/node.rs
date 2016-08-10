@@ -132,8 +132,9 @@ pub fn find_node(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -> Op
     the_node
 }
 
+
 pub fn encode(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -> String {
-    //! takes in a letterand traverses the tree and outputs the binary string value
+    //! takes in a letter and traverses the tree and outputs the binary string value
     
     let starting_index = match find_node(tree_tuple, s) {
         Some(i) => i,
