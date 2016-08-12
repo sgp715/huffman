@@ -89,5 +89,66 @@ pub fn read_binary(filename: &str) -> Vec<u8> {
     reader.read_until(b'a', &mut vec);
     
     vec
+    
+}
+
+
+pub fn byte_to_string(byte: u8) -> String {
+    // takes in a byte and outputs the string value
+    
+    let mut s: String = "".to_string();
+    
+    let mut num = byte;
+    let mut old_num = byte;
+    loop {
+        
+        // divide by two and store the result
+        num = num / 2;
+        
+        // find the remainder
+        let remainder = old_num - (num * 2);
+        
+        let letter = match remainder {
+        
+            0 => "0",
+            1 => "1",
+            _ => panic!("remainder should either be 0 or 1")
+        
+        };
+        s = letter.to_string() + &s;
+        
+        // if the letter is 1 or 0 we are done
+        if num == 0 {
+            break;
+        }
+        
+        old_num = num;
+    
+    }
+    
+    let add = 8 - s.len();
+    for i in 0..add {
+        s =  "0".to_string() + &s;
+    }
+    
+    s
+    
+}
+
+pub fn binary_to_string(binary: Vec<u8>) -> String {
+    //! take the binary array and translate it into a string
+    
+    
+    let mut s: String = "".to_string();
+    
+    for byte in binary {
+    
+        let string_byte = byte_to_string(byte);
+        s = s + &string_byte;
+    
+    }
+    
+    s
 
 }
+

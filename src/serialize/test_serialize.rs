@@ -112,4 +112,70 @@ pub fn test_write_and_read_binary(){
 
 }
 
+#[test]
+pub fn test_byte_to_string() {
+
+    let mut binary: u8= 0b0;
+    let mut actual = byte_to_string(binary);
+    let mut expected = "00000000".to_string();
+    assert_eq!(actual, expected);
+    
+    let binary: u8 = 0b1;
+    let actual = byte_to_string(binary);
+    let expected = "00000001".to_string();
+    assert_eq!(actual, expected);
+    
+    let binary: u8 = 0b1;
+    let actual = byte_to_string(binary);
+    let expected = "00000001".to_string();
+    assert_eq!(actual, expected);
+
+    let binary: u8 = 0b10;
+    let actual = byte_to_string(binary);
+    let expected = "00000010".to_string();
+    assert_eq!(actual, expected);
+    
+    let binary: u8 = 0b101;
+    let actual = byte_to_string(binary);
+    let expected = "00000101".to_string();
+    assert_eq!(actual, expected);
+    
+    let binary: u8 = 0b11111111;
+    let actual = byte_to_string(binary);
+    let expected = "11111111".to_string();
+    assert_eq!(actual, expected);
+
+}
+
+#[test]
+pub fn test_binary_to_string() {
+
+    let mut binary: Vec<u8> = vec![0b0];
+    let mut actual = binary_to_string(binary);
+    let mut expected = "00000000".to_string();
+    assert_eq!(actual, expected);
+    
+    let binary: Vec<u8> = vec![0b1];
+    let actual = binary_to_string(binary);
+    let expected = "00000001".to_string();
+    assert_eq!(actual, expected);
+    
+    let binary: Vec<u8> = vec![0b10101010];
+    let actual = binary_to_string(binary);
+    let expected = "10101010".to_string();
+    assert_eq!(actual, expected);
+    
+    let binary: Vec<u8> = vec![0b11111111];
+    let actual = binary_to_string(binary);
+    let expected = "11111111".to_string();
+    assert_eq!(actual, expected);
+    
+    let binary: Vec<u8> = vec![0b10000000, 0b11111111, 0b11111111];
+    let actual = binary_to_string(binary);
+    let expected = "100000001111111111111111".to_string();
+    assert_eq!(actual, expected);
+
+}
+
+
 

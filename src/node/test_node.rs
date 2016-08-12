@@ -180,8 +180,6 @@ pub fn test_encode(){
     let s = encode(&tree_tuple, "e");
     
     println!("We did it {}", s);
-    
-    assert!(false);
 
 }
 
