@@ -9,10 +9,13 @@ use huffman::serialize::*;
 
 use std::fs::{self, DirBuilder};
 
-//extern crate rustc_serialize;
-//use rustc_serialize::json;
+extern crate rustc_serialize;
+use rustc_serialize::json;
+
 extern crate bincode;
 use bincode::rustc_serialize::{encode, decode};
+
+use std::collections::HashMap;
 
 fn compress(file_name: &str) {
 
@@ -30,17 +33,13 @@ fn compress(file_name: &str) {
         filename_no_extension = filename_no_extension + &c.to_string();
     }
     //let new_file_name = filename_no_extension + ".rip";
-    let path = &filename_no_extension;
+    let path = &(filename_no_extension + ".rip");
     DirBuilder::new().recursive(true).create(path).unwrap();
 
     // encode the key we will use to traverse
     let key = utils::create_probability_dictionary(&s);
-    let binary_key = encode(&key, bincode::SizeLimit::Infinite).unwrap();
-    serialize::write_binary(&(path.to_string() + "/graph"), &binary_key);
-
-    //let decoded_key = decode(&)
-
-    // delimit between data and key
+    let encoded_key = encode(&key, bincode::SizeLimit::Infinite).unwrap();
+    serialize::write_binary(&(path.to_string() + "/graph"), &encoded_key);
 
     // create the graph tuple
     let tuple = node::create_tree(&s);
@@ -54,16 +53,22 @@ fn compress(file_name: &str) {
 
     }
 
-    // convert string to binary
-    let binary = serialize::string_to_binary(&encoded);
+    // convert string to encoded_data
+    let encoded_data = serialize::string_to_binary(&encoded);
 
     // write binary string
-    serialize::write_binary(&(path.to_string() + "/data"), &binary);
+    serialize::write_binary(&(path.to_string() + "/data"), &encoded_data);
 
 }
 
 
 fn decompress(s: &str) {
+
+    let encoded_key = serialize::read_binary(&(path.to_string() + "/graph"));
+    let decoded_key: HashMap<String, f32> = decode(&b_key).unwrap();
+
+    let encoded_data = serialize::read_binary(&(path.to_string() + "/data"));
+    
 
 }
 
