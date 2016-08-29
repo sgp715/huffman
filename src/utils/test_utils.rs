@@ -6,7 +6,7 @@ use std::collections::HashMap;
 #[test]
 pub fn test_read_file_to_string() {
 
-	let s = "Houston we have lift off.\n";
+	let s = "my name is sebastian.\n";
 	let t = read_file_to_string("test.txt");
 	assert_eq!(t, s);
 
@@ -38,8 +38,8 @@ pub fn test_create_string_dictionary() {
 
 
 #[test]
-pub fn test_create_probability_dictionary() { 
-	
+pub fn test_create_probability_dictionary() {
+
 	let d0 = create_probability_dictionary("hello");
 	let mut dict0: HashMap<String, f32> = HashMap::new();
 	dict0.insert("h".to_string(), 0.2);
@@ -68,12 +68,12 @@ pub fn test_minimum() {
 	dict.insert("e".to_string(), 0.2);
 	dict.insert("l".to_string(), 0.3);
 	dict.insert("o".to_string(), 0.4);
-	
+
 	let actual = minimum(&dict);
 	let expected = "h";
-	
+
 	assert_eq!(actual, expected);
-	
+
 }
 
 #[test]
@@ -91,26 +91,26 @@ pub fn test_reverse_string() {
 pub fn test_fuse(){
 
     let mut dict: HashMap<String, f32> = HashMap::new();
-    dict.insert("h".to_string(), 0.1); 
+    dict.insert("h".to_string(), 0.1);
 	let mut actual = fuse(&dict);
 	assert_eq!(actual, dict);
-	
-	
+
+
 	dict.insert("e".to_string(), 0.2);
 	dict.insert("l".to_string(), 0.3);
 	dict.insert("o".to_string(), 0.4);
 	actual = fuse(&dict);
-	
+
 	let mut expected: HashMap<String, f32> = HashMap::new();
-	expected.insert("he".to_string(), 0.3); 
+	expected.insert("he".to_string(), 0.3);
 	expected.insert("l".to_string(), 0.3);
 	expected.insert("o".to_string(), 0.4);
     assert_eq!(actual, expected);
-    
-    
+
+
     actual = fuse(&actual);
     expected = HashMap::new();
-	expected.insert("lhe".to_string(), 0.6); 
+	expected.insert("lhe".to_string(), 0.6);
 	expected.insert("o".to_string(), 0.4);
 	assert_eq!(actual, expected);
 
