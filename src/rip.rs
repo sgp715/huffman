@@ -1,3 +1,4 @@
+#![allow(unstable)]
 use std::env;
 use std::process::exit;
 
@@ -6,13 +7,18 @@ use huffman::utils::*;
 use huffman::node::*;
 use huffman::serialize::*;
 
+use std::fs::{self, DirBuilder};
+
+//extern crate rustc_serialize;
+//use rustc_serialize::json;
+extern crate bincode;
+use bincode::rustc_serialize::{encode, decode};
 
 fn compress(file_name: &str) {
 
 
     // read the string from the file
     let s = utils::read_file_to_string(file_name);
-
 
     // get filename w/o extension
     let mut filename_no_extension = "".to_string();
@@ -23,10 +29,21 @@ fn compress(file_name: &str) {
 
         filename_no_extension = filename_no_extension + &c.to_string();
     }
+    //let new_file_name = filename_no_extension + ".rip";
+    let path = &filename_no_extension;
+    DirBuilder::new().recursive(true).create(path).unwrap();
+
+    // encode the key we will use to traverse
+    let key = utils::create_probability_dictionary(&s);
+    let binary_key = encode(&key, bincode::SizeLimit::Infinite).unwrap();
+    serialize::write_binary(&(path.to_string() + "/graph"), &binary_key);
+
+    //let decoded_key = decode(&)
+
+    // delimit between data and key
 
     // create the graph tuple
     let tuple = node::create_tree(&s);
-
 
     // iterate through each letter and encode it
     let mut encoded: String = "".to_string();
@@ -37,13 +54,11 @@ fn compress(file_name: &str) {
 
     }
 
-
     // convert string to binary
     let binary = serialize::string_to_binary(&encoded);
 
-
     // write binary string
-    serialize::write_binary(&(filename_no_extension + ".rip"), &binary);
+    serialize::write_binary(&(path.to_string() + "/data"), &binary);
 
 }
 
