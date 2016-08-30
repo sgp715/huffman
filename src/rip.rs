@@ -4,8 +4,8 @@ use std::process::exit;
 
 extern crate huffman;
 use huffman::utils::*;
-use huffman::node::*;
-use huffman::serialize::*;
+use huffman::node::{create_tree, encode_string, decode_string};
+use huffman::serialize::{write_binary, read_binary, string_to_binary, binary_to_string};
 
 use std::fs::{self, DirBuilder};
 
@@ -21,7 +21,7 @@ fn compress(file_name: &str) {
 
 
     // read the string from the file
-    let s = utils::read_file_to_string(file_name);
+    let s = read_file_to_string(file_name);
 
     // get filename w/o extension
     let mut filename_no_extension = "".to_string();
@@ -37,9 +37,9 @@ fn compress(file_name: &str) {
     DirBuilder::new().recursive(true).create(path).unwrap();
 
     // encode the key we will use to traverse
-    let key = utils::create_probability_dictionary(&s);
+    let key = create_probability_dictionary(&s);
     let encoded_key = encode(&key, bincode::SizeLimit::Infinite).unwrap();
-    serialize::write_binary(&(path.to_string() + "/key"), &encoded_key);
+    write_binary(&(path.to_string() + "/key"), &encoded_key);
 
     // create the graph tuple
     let tuple = create_tree(&key);
@@ -54,10 +54,10 @@ fn compress(file_name: &str) {
     }
 
     // convert string to encoded_data
-    let encoded_data = serialize::string_to_binary(&encoded);
+    let encoded_data = string_to_binary(&encoded);
 
     // write binary string
-    serialize::write_binary(&(path.to_string() + "/data"), &encoded_data);
+    write_binary(&(path.to_string() + "/data"), &encoded_data);
 
 }
 
@@ -67,10 +67,10 @@ fn decompress(s: &str) {
     // 
 
     /*
-    let encoded_key = serialize::read_binary(&(path.to_string() + "/key"));
+    let encoded_key = read_binary(&(path.to_string() + "/key"));
     let decoded_key: HashMap<String, f32> = decode_string(&b_key).unwrap();
 
-    let encoded_data = serialize::read_binary(&(path.to_string() + "/data"));
+    let encoded_data = read_binary(&(path.to_string() + "/data"));
     */
 
 }
