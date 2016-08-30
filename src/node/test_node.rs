@@ -139,7 +139,6 @@ pub fn test_create_tree(){
 
     let tree_tuple = create_tree("Hello");
 
-
     let mut graph = tree_tuple.0;
     let root_node = tree_tuple.1;
     let mut bfs = Bfs::new(&graph, root_node);
@@ -164,8 +163,9 @@ pub fn test_create_tree(){
 #[test]
 pub fn test_find_node(){
 
+    let dict = create_probability_dictionary("Hello");
 
-    let tree_tuple = create_tree("Hello");
+    let tree_tuple = create_tree(&dict);
 
     let node_index = find_node(&tree_tuple, "H");
 
@@ -176,7 +176,9 @@ pub fn test_find_node(){
 #[test]
 pub fn test_encode_and_decode(){
 
-    let tree_tuple = create_tree("Hello");
+    let dict = create_probability_dictionary("Hello"); 
+
+    let tree_tuple = create_tree(&dict);
 
     let b = encode(&tree_tuple, "H");
     let H = decode(&tree_tuple, &b);

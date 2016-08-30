@@ -8,7 +8,5 @@ pub mod serialize;
 extern crate petgraph;
 pub mod node;
 
-// does the compressing
-pub mod compress;
 
 

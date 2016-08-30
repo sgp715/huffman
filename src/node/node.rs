@@ -16,15 +16,13 @@ pub fn add_nodes(gr: &mut Graph<String, String>, node0: NodeIndex, node1: NodeIn
 
 }
 
-pub fn initialize_node_dictionary(gr: &mut Graph<String, String>, s: &str) -> HashMap<NodeIndex, f32> {
+pub fn initialize_node_dictionary(gr: &mut Graph<String, String>, string_dict: &HashMap<String, f32>) -> HashMap<NodeIndex, f32> {
 
     let mut node_dict: HashMap<NodeIndex, f32> = HashMap::new();
 
-    let string_dict = create_probability_dictionary(s);
-
     for (letter, prob) in string_dict {
-        let current_node = gr.add_node(letter);
-        node_dict.insert(current_node, prob);
+        let current_node = gr.add_node(letter.to_string());
+        node_dict.insert(current_node, *prob);
     }
 
     node_dict
@@ -82,11 +80,12 @@ pub fn fuse_nodes(graph: &mut Graph<String, String>, dict: &mut HashMap<NodeInde
 }
 
 
-pub fn create_tree(s: &str) -> (Graph<String, String>, NodeIndex) {
+//pub fn create_tree(s: &str) -> (Graph<String, String>, NodeIndex) {
+pub fn create_tree(key: &HashMap<String, f32>) -> (Graph<String, String>, NodeIndex) {
     //! given a string create the huffman tree that will be used to encode and decode stirngs
 
     let mut graph = Graph::<String, String>::default();
-    let mut dict = initialize_node_dictionary(&mut graph, s);
+    let mut dict = initialize_node_dictionary(&mut graph, &key);
 
     // loop until there is only one element left in the dictionary
     // this corresponds to the root node of the tree

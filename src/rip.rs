@@ -39,10 +39,10 @@ fn compress(file_name: &str) {
     // encode the key we will use to traverse
     let key = utils::create_probability_dictionary(&s);
     let encoded_key = encode(&key, bincode::SizeLimit::Infinite).unwrap();
-    serialize::write_binary(&(path.to_string() + "/graph"), &encoded_key);
+    serialize::write_binary(&(path.to_string() + "/key"), &encoded_key);
 
     // create the graph tuple
-    let tuple = node::create_tree(&s);
+    let tuple = node::create_tree(&key);
 
     // iterate through each letter and encode it
     let mut encoded: String = "".to_string();
@@ -64,11 +64,14 @@ fn compress(file_name: &str) {
 
 fn decompress(s: &str) {
 
-    let encoded_key = serialize::read_binary(&(path.to_string() + "/graph"));
+    // 
+
+    /*
+    let encoded_key = serialize::read_binary(&(path.to_string() + "/key"));
     let decoded_key: HashMap<String, f32> = decode(&b_key).unwrap();
 
     let encoded_data = serialize::read_binary(&(path.to_string() + "/data"));
-    
+    */
 
 }
 
