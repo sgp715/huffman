@@ -8,5 +8,7 @@ pub mod serialize;
 extern crate petgraph;
 pub mod node;
 
+pub mod tests;
+
 
 

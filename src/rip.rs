@@ -42,13 +42,13 @@ fn compress(file_name: &str) {
     serialize::write_binary(&(path.to_string() + "/key"), &encoded_key);
 
     // create the graph tuple
-    let tuple = node::create_tree(&key);
+    let tuple = create_tree(&key);
 
     // iterate through each letter and encode it
     let mut encoded: String = "".to_string();
     for c in s.chars(){
 
-        let current = &node::encode(&tuple, &c.to_string());
+        let current = &encode_string(&tuple, &c.to_string());
         encoded = encoded + &current;
 
     }
@@ -68,7 +68,7 @@ fn decompress(s: &str) {
 
     /*
     let encoded_key = serialize::read_binary(&(path.to_string() + "/key"));
-    let decoded_key: HashMap<String, f32> = decode(&b_key).unwrap();
+    let decoded_key: HashMap<String, f32> = decode_string(&b_key).unwrap();
 
     let encoded_data = serialize::read_binary(&(path.to_string() + "/data"));
     */
