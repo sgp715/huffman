@@ -7,13 +7,15 @@ use huffman::utils::*;
 use huffman::node::{create_tree, encode_string, decode_string};
 use huffman::serialize::{write_binary, read_binary, string_to_binary, binary_to_string};
 
-use std::fs::{self, DirBuilder};
+use std::fs::{DirBuilder};
 
-extern crate rustc_serialize;
-use rustc_serialize::json;
+use std::io::prelude::*;
+use std::fs::File;
+use std::io::{self, BufReader};
 
+extern crate serde;
 extern crate bincode;
-use bincode::rustc_serialize::{encode, decode};
+use bincode::serde::{serialize, deserialize_from};
 
 use std::collections::HashMap;
 
@@ -32,13 +34,17 @@ fn compress(file_name: &str) {
 
         filename_no_extension = filename_no_extension + &c.to_string();
     }
+
     //let new_file_name = filename_no_extension + ".rip";
     let path = &(filename_no_extension + ".rip");
     DirBuilder::new().recursive(true).create(path).unwrap();
 
     // encode the key we will use to traverse
-    let key = create_probability_dictionary(&s);
-    let encoded_key = encode(&key, bincode::SizeLimit::Infinite).unwrap();
+    let key: HashMap<String, f32> = create_probability_dictionary(&s);
+    let encoded_key = match serialize(&key, bincode::SizeLimit::Infinite){
+        Ok(ec) => ec,
+        Err(e) => panic!("Could not encode"),
+    };
     write_binary(&(path.to_string() + "/key"), &encoded_key);
 
     // create the graph tuple
@@ -62,22 +68,40 @@ fn compress(file_name: &str) {
 }
 
 
-fn decompress(s: &str) {
+fn decompress(path: &str) {
 
-    // 
+    let file = File::open(&(path.to_string() + "/key")).expect("Could not open file");
+    let mut reader = BufReader::new(file);
+
+    //let decoded_key: HashMap<String, f32> = deserialize(&binary_key[..]).unwrap();
+    let decoded_key: HashMap<String, f32> = deserialize_from(&mut reader, bincode::SizeLimit::Infinite).expect("Could not deserialize key");
 
     /*
-    let encoded_key = read_binary(&(path.to_string() + "/key"));
-    let decoded_key: HashMap<String, f32> = decode_string(&b_key).unwrap();
+    for (letter, prob) in decoded_key.iter() {
 
-    let encoded_data = read_binary(&(path.to_string() + "/data"));
+        println!("letter: {}, prob {}", letter, prob);
+    }
     */
+
+    /*
+    let tree_tuple = create_tree(&decoded_key);
+
+    let binary_data = read_binary(&(path.to_string() + "/data"));
+    let decoded_data: HashMap<String, f32> = match decode(&binary_data) {
+        Ok(bd) => bd,
+        Err(e) => panic!("Could not decode data"),
+    };
+    */
+
+    // now pass the data along with the key into the decode function
+
+    // create the new file with the decoded data
+
 
 }
 
 
 fn main() {
-
 
     let args: Vec<_> = env::args().collect();
     if args.len() != 3 {
@@ -87,36 +111,6 @@ fn main() {
 
     let option = &args[1];
     let file_name = &args[2];
-
-    // get the extentsion
-    /*
-    let mut ext = "".to_string();
-    let mut before = true;
-    for c in file_name.chars() {
-        if c != '.' && before {
-            continue;
-        }
-
-        if c == '.' {
-            before = false;
-        }
-
-        ext = ext + &c.to_string();
-    }
-
-
-
-    // get option
-
-
-
-    if ext.to_string() == ".txt" {
-        compress(&file_name);
-    } else if ext.to_string() == ".rip" {
-        decompress(&file_name);
-    }
-    */
-
 
     if option == "-c" {
         compress(file_name);

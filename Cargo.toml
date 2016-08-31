@@ -6,8 +6,8 @@ authors = ["sebastian_perez"]
 
 [dependencies]
 petgraph = "0.2.6"
-rustc-serialize = "*"
 bincode = "*"
+serde = "*"
 
 [lib]
 name="huffman"
