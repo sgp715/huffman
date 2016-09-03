@@ -38,7 +38,16 @@ pub fn string_to_binary(s: &str) -> Vec<u8> {
         if i == (num_slices - 1) {
 
             // if we are at the end then just do it for everything left
-            binary_vector.push(calculate_binary(&s[front..]));
+            let left_over = &s[front..];
+            let mut string = "".to_string();
+            string = string + left_over;
+            let add = 8 - left_over.len();
+            for i in 0..add {
+                string = string + "0";
+            }
+
+
+            binary_vector.push(calculate_binary(&string));
 
         } else {
 
@@ -89,7 +98,7 @@ pub fn read_binary(filename: &str) -> Vec<u8> {
 }
 
 
-pub fn byte_to_string(byte: u8) -> String {
+pub fn byte_to_string(byte: u8, fill_front: bool) -> String {
     // takes in a byte and outputs the string value
 
     let mut s: String = "".to_string();
@@ -126,8 +135,14 @@ pub fn byte_to_string(byte: u8) -> String {
     }
 
     let add = 8 - s.len();
-    for i in 0..add {
-        s = "0".to_string() + &s;
+    if fill_front == true {
+        for i in 0..add {
+            s = "0".to_string() + &s;
+        }
+    } else {
+        for i in 0..add {
+            s = s + "0";
+        }
     }
 
     s
@@ -140,10 +155,23 @@ pub fn binary_to_string(binary: &Vec<u8>) -> String {
 
     let mut s: String = "".to_string();
 
+    let mut byte_num = 1;
+    let length = binary.len();
+
     for byte in binary {
 
-        let string_byte = byte_to_string(*byte);
+        /*
+        if byte_num == length {
+            let string_byte = byte_to_string(*byte, false);
+            s = s + &string_byte;
+            break;
+        }
+        */
+
+        let string_byte = byte_to_string(*byte, true);
         s = s + &string_byte;
+
+        byte_num += 1;
 
     }
 

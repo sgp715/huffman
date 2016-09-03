@@ -199,8 +199,9 @@ pub fn decode_string(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -
     };
     */
 
+    let mut character_num = 1;
+    let string_length = s.len();
     //println!("");
-
     for c in s.chars() {
 
         let mut edges = graph.edges_directed(current_index, EdgeDirection::Outgoing);
@@ -239,9 +240,14 @@ pub fn decode_string(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -
                 current_index = tree_tuple.1;
 
             }
-        } else {
-            panic!("Could not find matching edge");
+        }else {
+            // if we have hit this and we are not on the last byte
+            if (string_length - character_num) >= 8 {
+                panic!("Could not find matching edge");
+            }
         }
+
+        character_num += 1;
 
     }
 
