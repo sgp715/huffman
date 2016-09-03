@@ -19,12 +19,8 @@ use bincode::serde::{serialize, deserialize_from};
 
 use std::collections::BTreeMap;
 
-fn compress(file_name: &str) {
+fn no_ext(file_name: &str) -> String {
 
-    // read the string from the file
-    let s = read_file_to_string(file_name);
-
-    // get filename w/o extension
     let mut filename_no_extension = "".to_string();
     for c in file_name.chars() {
         if c == '.' {
@@ -33,14 +29,36 @@ fn compress(file_name: &str) {
 
         filename_no_extension = filename_no_extension + &c.to_string();
     }
+
+    filename_no_extension
+
+}
+
+fn compress(file_name: &str) {
+
+    // read the string from the file
+    let s = read_file_to_string(file_name);
+
+    // get filename w/o extension
+    let mut filename_no_extension = no_ext(file_name);
+    /*"".to_string();
+    for c in file_name.chars() {
+        if c == '.' {
+            break;
+        }
+
+        filename_no_extension = filename_no_extension + &c.to_string();
+    }*/
     let path = &(filename_no_extension + ".rip");
     DirBuilder::new().recursive(true).create(path).unwrap();
 
     // encode the key we will use to decode the file
     let key: BTreeMap<String, f32> = create_probability_dictionary(&s);
+    /*
     for (letter, prob) in &key {
         println!("letter: {}, prob: {}", *letter, *prob);
-    }
+    }*/
+
     let encoded_key = serialize(&key, bincode::SizeLimit::Infinite).expect("Could not serialize key");
     write_binary(&(path.to_string() + "/key"), &encoded_key);
 
@@ -55,21 +73,24 @@ fn compress(file_name: &str) {
 
 fn decompress(path: &str) {
 
+    let filename = no_ext(path);
+
     let file = File::open(&(path.to_string() + "/key")).expect("Could not open file");
     let mut reader = BufReader::new(file);
     let key: BTreeMap<String, f32> = deserialize_from(&mut reader, bincode::SizeLimit::Infinite).expect("Could not deserialize key");
+    /*
     for (letter, prob) in &key {
         println!("letter: {}, prob: {}", *letter, *prob);
     }
+    */
 
     let tree_tuple = create_tree(&key);
     let binary_data = read_binary(&(path.to_string() + "/data"));
     let encoded_data = binary_to_string(&binary_data);
     let data = decode_string(&tree_tuple, &encoded_data);
 
-    println!("data: {}", data);
-
-    //write_
+    let mut file = File::create(&(filename + ".txt")).expect("Could not write file");
+    file.write_fmt(format_args!("{}", data)).expect("Could not write data to file");
 
 }
 

@@ -66,13 +66,9 @@ use std::io::{self, BufReader};
 pub fn write_binary(filename: &str, data: &Vec<u8>) {
     //! write the buffer vector to a vile
 
-    let mut file = match File::create(filename) {
-        Ok(F) => F,
-        Err(e) => panic!("Could not create file.")
-    };
+    let mut file = File::create(filename).expect("Could not create file.");
 
     file.write(&*data);
-
 }
 
 
