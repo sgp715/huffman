@@ -102,11 +102,14 @@ pub fn byte_to_string(byte: u8) -> String {
     let mut old_num = byte;
     loop {
 
+        //println!("before: {}", num);
         // divide by two and store the result
         num = num / 2;
+        //println!("after: {}", num);
 
         // find the remainder
         let remainder = old_num - (num * 2);
+        //println!("remainder: {}", remainder);
 
         let letter = match remainder {
 
@@ -126,12 +129,10 @@ pub fn byte_to_string(byte: u8) -> String {
 
     }
 
-    /*
     let add = 8 - s.len();
     for i in 0..add {
-        s = &s + "0".to_string();
+        s = "0".to_string() + &s;
     }
-    */
 
     s
 

@@ -38,10 +38,10 @@ fn compress(file_name: &str) {
 
     // encode the key we will use to decode the file
     let key: HashMap<String, f32> = create_probability_dictionary(&s);
-    let encoded_key = match serialize(&key, bincode::SizeLimit::Infinite){
-        Ok(ec) => ec,
-        Err(e) => panic!("Could not encode"),
-    };
+    for (letter, prob) in &key {
+        println!("letter: {}, prob: {}", *letter, *prob);
+    }
+    let encoded_key = serialize(&key, bincode::SizeLimit::Infinite).expect("Could not serialize key");
     write_binary(&(path.to_string() + "/key"), &encoded_key);
 
     // encode the contents of the file
@@ -57,18 +57,12 @@ fn decompress(path: &str) {
 
     let file = File::open(&(path.to_string() + "/key")).expect("Could not open file");
     let mut reader = BufReader::new(file);
-
-    //let decoded_key: HashMap<String, f32> = deserialize(&binary_key[..]).unwrap();
-    let decoded_key: HashMap<String, f32> = deserialize_from(&mut reader, bincode::SizeLimit::Infinite).expect("Could not deserialize key");
-
-    /*
-    for (letter, prob) in decoded_key.iter() {
-
-        println!("letter: {}, prob {}", letter, prob);
+    let key: HashMap<String, f32> = deserialize_from(&mut reader, bincode::SizeLimit::Infinite).expect("Could not deserialize key");
+    for (letter, prob) in &key {
+        println!("letter: {}, prob: {}", *letter, *prob);
     }
-    */
 
-    let tree_tuple = create_tree(&decoded_key);
+    let tree_tuple = create_tree(&key);
     let binary_data = read_binary(&(path.to_string() + "/data"));
     let encoded_data = binary_to_string(&binary_data);
     let data = decode_string(&tree_tuple, &encoded_data);
