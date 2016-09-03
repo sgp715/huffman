@@ -21,7 +21,6 @@ use std::collections::HashMap;
 
 fn compress(file_name: &str) {
 
-
     // read the string from the file
     let s = read_file_to_string(file_name);
 
@@ -34,12 +33,10 @@ fn compress(file_name: &str) {
 
         filename_no_extension = filename_no_extension + &c.to_string();
     }
-
-    //let new_file_name = filename_no_extension + ".rip";
     let path = &(filename_no_extension + ".rip");
     DirBuilder::new().recursive(true).create(path).unwrap();
 
-    // encode the key we will use to traverse
+    // encode the key we will use to decode the file
     let key: HashMap<String, f32> = create_probability_dictionary(&s);
     let encoded_key = match serialize(&key, bincode::SizeLimit::Infinite){
         Ok(ec) => ec,
@@ -47,22 +44,10 @@ fn compress(file_name: &str) {
     };
     write_binary(&(path.to_string() + "/key"), &encoded_key);
 
-    // create the graph tuple
-    let tuple = create_tree(&key);
-
-    // iterate through each letter and encode it
-    let mut encoded: String = "".to_string();
-    for c in s.chars(){
-
-        let current = &encode_string(&tuple, &c.to_string());
-        encoded = encoded + &current;
-
-    }
-
-    // convert string to encoded_data
+    // encode the contents of the file
+    let tree_tuple = create_tree(&key);
+    let encoded = encode_string(&tree_tuple, &s);
     let encoded_data = string_to_binary(&encoded);
-
-    // write binary string
     write_binary(&(path.to_string() + "/data"), &encoded_data);
 
 }
@@ -83,20 +68,14 @@ fn decompress(path: &str) {
     }
     */
 
-    /*
     let tree_tuple = create_tree(&decoded_key);
-
     let binary_data = read_binary(&(path.to_string() + "/data"));
-    let decoded_data: HashMap<String, f32> = match decode(&binary_data) {
-        Ok(bd) => bd,
-        Err(e) => panic!("Could not decode data"),
-    };
-    */
+    let encoded_data = binary_to_string(&binary_data);
+    let data = decode_string(&tree_tuple, &encoded_data);
 
-    // now pass the data along with the key into the decode function
+    println!("data: {}", data);
 
-    // create the new file with the decoded data
-
+    //write_
 
 }
 

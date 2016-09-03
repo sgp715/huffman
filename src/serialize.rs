@@ -137,7 +137,7 @@ pub fn byte_to_string(byte: u8) -> String {
 
 }
 
-pub fn binary_to_string(binary: Vec<u8>) -> String {
+pub fn binary_to_string(binary: &Vec<u8>) -> String {
     //! take the binary array and translate it into a string
 
 
@@ -145,7 +145,7 @@ pub fn binary_to_string(binary: Vec<u8>) -> String {
 
     for byte in binary {
 
-        let string_byte = byte_to_string(byte);
+        let string_byte = byte_to_string(*byte);
         s = s + &string_byte;
 
     }

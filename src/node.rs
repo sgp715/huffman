@@ -134,7 +134,7 @@ pub fn find_node(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -> Op
     the_node
 }
 
-pub fn encode_string(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -> String {
+pub fn encode_character(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -> String {
     //! takes in a letter and traverses the tree backwards and outputs the binary string value
 
     let starting_index = match find_node(tree_tuple, s) {
@@ -169,10 +169,24 @@ pub fn encode_string(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -
 
 }
 
+pub fn encode_string(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -> String {
+
+    // iterate through each letter and encode it
+    let mut encoded: String = "".to_string();
+    for c in s.chars(){
+
+        let current = &encode_character(&tree_tuple, &c.to_string());
+        encoded = encoded + &current;
+
+    }
+
+    encoded
+}
+
 
 pub fn decode_string(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -> String {
 
-    let mut character = "".to_string();
+    let mut string = "".to_string();
     let graph = &tree_tuple.0;
 
     let mut current_index = tree_tuple.1;
@@ -185,7 +199,7 @@ pub fn decode_string(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -
     };
     */
 
-    println!("");
+    //println!("");
 
     for c in s.chars() {
 
@@ -202,24 +216,28 @@ pub fn decode_string(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -
 
             let child_index = child_tuple.0;
             let child_weight = child_tuple.1;
-            println!("weight: {}", child_weight);
-            println!("char: {}", c);
+            //println!("weight: {}", child_weight);
+            //println!("char: {}", c);
             if &c.to_string() == child_weight {
                 current_index = child_index;
                 found = true;
             }
         }
 
-        println!("");
+        //println!("");
 
         if found == true {
             let current_weight = match graph.node_weight(current_index) {
                 Some(w) => w,
                 None => panic!("Could weight not assigned")
             };
-            println!("{}", current_weight);
+            //println!("{}", current_weight);
             if current_weight.len() == 1 {
-                character = character + &current_weight.to_string();
+                string = string + &current_weight.to_string();
+
+                // we have found a letter start over
+                current_index = tree_tuple.1;
+
             }
         } else {
             panic!("Could not find matching edge");
@@ -227,7 +245,7 @@ pub fn decode_string(tree_tuple: &(Graph<String, String>, NodeIndex), s: &str) -
 
     }
 
-    character
+    string
 
 }
 

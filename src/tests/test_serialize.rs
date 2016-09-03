@@ -151,27 +151,27 @@ pub fn test_byte_to_string() {
 pub fn test_binary_to_string() {
 
     let mut binary: Vec<u8> = vec![0b0];
-    let mut actual = binary_to_string(binary);
+    let mut actual = binary_to_string(&binary);
     let mut expected = "0".to_string();
     assert_eq!(actual, expected);
 
     let binary: Vec<u8> = vec![0b1];
-    let actual = binary_to_string(binary);
+    let actual = binary_to_string(&binary);
     let expected = "1".to_string();
     assert_eq!(actual, expected);
 
     let binary: Vec<u8> = vec![0b10101010];
-    let actual = binary_to_string(binary);
+    let actual = binary_to_string(&binary);
     let expected = "10101010".to_string();
     assert_eq!(actual, expected);
 
     let binary: Vec<u8> = vec![0b11111111];
-    let actual = binary_to_string(binary);
+    let actual = binary_to_string(&binary);
     let expected = "11111111".to_string();
     assert_eq!(actual, expected);
 
     let binary: Vec<u8> = vec![0b10000000, 0b11111111, 0b11111111];
-    let actual = binary_to_string(binary);
+    let actual = binary_to_string(&binary);
     let expected = "100000001111111111111111".to_string();
     assert_eq!(actual, expected);
 

@@ -79,7 +79,9 @@ pub fn test_find_node(){
 #[test]
 pub fn test_encode_and_decode(){
 
-    let dict = create_probability_dictionary("Hello"); 
+    let s = "Hello";
+
+    let dict = create_probability_dictionary(s);
 
     let tree_tuple = create_tree(&dict);
 
@@ -98,6 +100,17 @@ pub fn test_encode_and_decode(){
     let b = encode_string(&tree_tuple, "l");
     let l = decode_string(&tree_tuple, &b);
     assert_eq!("l".to_string(), l);
+
+    let b = encode_string(&tree_tuple, s);
+    let Hello = decode_string(&tree_tuple, &b);
+    assert_eq!(s.to_string(), Hello);
+
+    let ss = "Hey what's up \n";
+    let ss_dict = create_probability_dictionary(ss);
+    let tree_tuple = create_tree(&ss_dict);
+    let b = encode_string(&tree_tuple, ss);
+    let hey = decode_string(&tree_tuple, &b);
+    assert_eq!(ss.to_string(), hey);
 
 
 }
