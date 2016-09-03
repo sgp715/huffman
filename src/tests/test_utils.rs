@@ -1,9 +1,10 @@
 #![cfg(test)]
 
 use utils::*;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 #[test]
+/*
 pub fn test_read_file_to_string() {
 
 	let s = "My name is sebastian.\n";
@@ -11,13 +12,14 @@ pub fn test_read_file_to_string() {
 	assert_eq!(t, s);
 
 }
+*/
 
 
 #[test]
 pub fn test_create_string_dictionary() {
 
 	let d0 = create_string_dictionary("hello");
-	let mut dict0: HashMap<String, i32> = HashMap::new();
+	let mut dict0: BTreeMap<String, i32> = BTreeMap::new();
 	dict0.insert("h".to_string(), 1);
 	dict0.insert("e".to_string(), 1);
 	dict0.insert("l".to_string(), 2);
@@ -25,7 +27,7 @@ pub fn test_create_string_dictionary() {
 	assert_eq!(d0, dict0);
 
 	let d1 = create_string_dictionary("aa bbbb cccccc ??? .");
-	let mut dict1: HashMap<String, i32> = HashMap::new();
+	let mut dict1: BTreeMap<String, i32> = BTreeMap::new();
 	dict1.insert("a".to_string(), 2);
 	dict1.insert("b".to_string(), 4);
 	dict1.insert("c".to_string(), 6);
@@ -41,7 +43,7 @@ pub fn test_create_string_dictionary() {
 pub fn test_create_probability_dictionary() {
 
 	let d0 = create_probability_dictionary("hello");
-	let mut dict0: HashMap<String, f32> = HashMap::new();
+	let mut dict0: BTreeMap<String, f32> = BTreeMap::new();
 	dict0.insert("h".to_string(), 0.2);
 	dict0.insert("e".to_string(), 0.2);
 	dict0.insert("l".to_string(), 0.4);
@@ -49,7 +51,7 @@ pub fn test_create_probability_dictionary() {
 	assert_eq!(d0, dict0);
 
 	let d1 = create_probability_dictionary("aa bbbb cccccc ?? ..");
-	let mut dict1: HashMap<String, f32> = HashMap::new();
+	let mut dict1: BTreeMap<String, f32> = BTreeMap::new();
 	dict1.insert("a".to_string(), 0.1);
 	dict1.insert("b".to_string(), 0.2);
 	dict1.insert("c".to_string(), 0.3);
@@ -63,7 +65,7 @@ pub fn test_create_probability_dictionary() {
 #[test]
 pub fn test_minimum() {
 
-    let mut dict: HashMap<String, f32> = HashMap::new();
+    let mut dict: BTreeMap<String, f32> = BTreeMap::new();
     dict.insert("h".to_string(), 0.1);
 	dict.insert("e".to_string(), 0.2);
 	dict.insert("l".to_string(), 0.3);
@@ -90,7 +92,7 @@ pub fn test_reverse_string() {
 #[test]
 pub fn test_fuse(){
 
-    let mut dict: HashMap<String, f32> = HashMap::new();
+    let mut dict: BTreeMap<String, f32> = BTreeMap::new();
     dict.insert("h".to_string(), 0.1);
 	let mut actual = fuse(&dict);
 	assert_eq!(actual, dict);
@@ -101,7 +103,7 @@ pub fn test_fuse(){
 	dict.insert("o".to_string(), 0.4);
 	actual = fuse(&dict);
 
-	let mut expected: HashMap<String, f32> = HashMap::new();
+	let mut expected: BTreeMap<String, f32> = BTreeMap::new();
 	expected.insert("he".to_string(), 0.3);
 	expected.insert("l".to_string(), 0.3);
 	expected.insert("o".to_string(), 0.4);
@@ -109,7 +111,7 @@ pub fn test_fuse(){
 
 
     actual = fuse(&actual);
-    expected = HashMap::new();
+    expected = BTreeMap::new();
 	expected.insert("lhe".to_string(), 0.6);
 	expected.insert("o".to_string(), 0.4);
 	assert_eq!(actual, expected);

@@ -2,7 +2,6 @@
 
 
 use serialize::*;
-use std::collections::HashMap;
 
 
 #[test]

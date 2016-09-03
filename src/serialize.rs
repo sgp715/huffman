@@ -86,7 +86,7 @@ pub fn read_binary(filename: &str) -> Vec<u8> {
 
     let mut reader = BufReader::new(file);
     let mut vec = vec![];
-    reader.read_until(b'a', &mut vec);
+    reader.read_to_end(&mut vec);
 
     vec
 

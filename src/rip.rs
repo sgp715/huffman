@@ -17,7 +17,7 @@ extern crate serde;
 extern crate bincode;
 use bincode::serde::{serialize, deserialize_from};
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 fn compress(file_name: &str) {
 
@@ -37,7 +37,7 @@ fn compress(file_name: &str) {
     DirBuilder::new().recursive(true).create(path).unwrap();
 
     // encode the key we will use to decode the file
-    let key: HashMap<String, f32> = create_probability_dictionary(&s);
+    let key: BTreeMap<String, f32> = create_probability_dictionary(&s);
     for (letter, prob) in &key {
         println!("letter: {}, prob: {}", *letter, *prob);
     }
@@ -57,7 +57,7 @@ fn decompress(path: &str) {
 
     let file = File::open(&(path.to_string() + "/key")).expect("Could not open file");
     let mut reader = BufReader::new(file);
-    let key: HashMap<String, f32> = deserialize_from(&mut reader, bincode::SizeLimit::Infinite).expect("Could not deserialize key");
+    let key: BTreeMap<String, f32> = deserialize_from(&mut reader, bincode::SizeLimit::Infinite).expect("Could not deserialize key");
     for (letter, prob) in &key {
         println!("letter: {}, prob: {}", *letter, *prob);
     }

@@ -1,7 +1,7 @@
 pub use utils::*;
 pub use petgraph::{Graph, Bfs, EdgeDirection};
 pub use petgraph::graph::NodeIndex;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 pub fn add_nodes(gr: &mut Graph<String, String>, node0: NodeIndex, node1: NodeIndex, new_node_name: &str) -> NodeIndex {
     //! takes in two graph indices and links them and returns a new index
@@ -16,9 +16,9 @@ pub fn add_nodes(gr: &mut Graph<String, String>, node0: NodeIndex, node1: NodeIn
 
 }
 
-pub fn initialize_node_dictionary(gr: &mut Graph<String, String>, string_dict: &HashMap<String, f32>) -> HashMap<NodeIndex, f32> {
+pub fn initialize_node_dictionary(gr: &mut Graph<String, String>, string_dict: &BTreeMap<String, f32>) -> BTreeMap<NodeIndex, f32> {
 
-    let mut node_dict: HashMap<NodeIndex, f32> = HashMap::new();
+    let mut node_dict: BTreeMap<NodeIndex, f32> = BTreeMap::new();
 
     for (letter, prob) in string_dict {
         let current_node = gr.add_node(letter.to_string());
@@ -30,7 +30,7 @@ pub fn initialize_node_dictionary(gr: &mut Graph<String, String>, string_dict: &
 }
 
 
-pub fn min_node(dict: &HashMap<NodeIndex, f32>) -> NodeIndex {
+pub fn min_node(dict: &BTreeMap<NodeIndex, f32>) -> NodeIndex {
     //! return the minimum node index from the dictionary
 
     let mut minimum_prob: f32 = 1.0f32 / 0.0f32;
@@ -47,10 +47,10 @@ pub fn min_node(dict: &HashMap<NodeIndex, f32>) -> NodeIndex {
 }
 
 
-pub fn fuse_nodes(graph: &mut Graph<String, String>, dict: &mut HashMap<NodeIndex, f32>) {
+pub fn fuse_nodes(graph: &mut Graph<String, String>, dict: &mut BTreeMap<NodeIndex, f32>) {
     //! fuse the minimum dictionary values as well as connecting the graph
 
-        // let mut new_dict: HashMap<NodeIndex, f32> = dict.clone();
+        // let mut new_dict: BTreeMap<NodeIndex, f32> = dict.clone();
 
         if dict.len() <= 1 {
             panic!("Should not be passing in a dictionary of single value");
@@ -81,7 +81,7 @@ pub fn fuse_nodes(graph: &mut Graph<String, String>, dict: &mut HashMap<NodeInde
 
 
 //pub fn create_tree(s: &str) -> (Graph<String, String>, NodeIndex) {
-pub fn create_tree(key: &HashMap<String, f32>) -> (Graph<String, String>, NodeIndex) {
+pub fn create_tree(key: &BTreeMap<String, f32>) -> (Graph<String, String>, NodeIndex) {
     //! given a string create the huffman tree that will be used to encode and decode stirngs
 
     let mut graph = Graph::<String, String>::default();

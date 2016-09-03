@@ -2,7 +2,7 @@
 use node::*;
 
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 
 #[test]
@@ -25,7 +25,7 @@ pub fn test_min_node(){
     let a = graph.add_node("a".to_string());
     let b = graph.add_node("b".to_string());
 
-    let mut node_dict = HashMap::new();
+    let mut node_dict = BTreeMap::new();
     node_dict.insert(a, 0.1);
     node_dict.insert(b, 0.2);
 

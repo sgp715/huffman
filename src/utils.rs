@@ -1,7 +1,7 @@
 use std::io;
 use std::io::prelude::*;
 use std::fs::File;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 
 pub fn read_file_to_string(file_name: &str) -> String {
@@ -25,11 +25,11 @@ pub fn write_string_to_file(path: &str) {
 }
 
 
-pub fn create_string_dictionary(s: &str) -> HashMap<String, i32> {
+pub fn create_string_dictionary(s: &str) -> BTreeMap<String, i32> {
 	//! create a dictionary that holds the count of each letter
 
 	// if the key is in the dictionary then add one to the value
-	let mut dict: HashMap<String, i32> = HashMap::new();
+	let mut dict: BTreeMap<String, i32> = BTreeMap::new();
 
 	// iterate through all of the characters in the string
 	for c in s.chars(){
@@ -58,13 +58,13 @@ pub fn create_string_dictionary(s: &str) -> HashMap<String, i32> {
 }
 
 
-pub fn create_probability_dictionary(s: &str) -> HashMap<String, f32> {
+pub fn create_probability_dictionary(s: &str) -> BTreeMap<String, f32> {
 	//! create a dictionary that holds the probability of each letter in a document
 
 	// create the count dictionary
-	let dict: HashMap<String, i32> = create_string_dictionary(&s);
+	let dict: BTreeMap<String, i32> = create_string_dictionary(&s);
 
-	let mut probability_dict: HashMap<String, f32> = HashMap::new();
+	let mut probability_dict: BTreeMap<String, f32> = BTreeMap::new();
 
 	let mut total_letters: f32 = 0.0;
 
@@ -83,8 +83,8 @@ pub fn create_probability_dictionary(s: &str) -> HashMap<String, f32> {
 }
 
 
-pub fn minimum(dict: &HashMap<String, f32>) -> String {
-    //! return the minimum value from HashMap
+pub fn minimum(dict: &BTreeMap<String, f32>) -> String {
+    //! return the minimum value from BTreeMap
 
     // iterate through everything and return the minimum letter
     let mut minimum_prob: f32 = 1.0f32 / 0.0f32;
